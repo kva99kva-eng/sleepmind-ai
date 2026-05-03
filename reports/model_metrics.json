@@ -1,0 +1,91 @@
+{
+  "accuracy": 0.6976,
+  "balanced_accuracy": 0.6671,
+  "f1": 0.3212,
+  "roc_auc": 0.7434,
+  "classification_report": {
+    "0": {
+      "precision": 0.9365026595744681,
+      "recall": 0.7065462753950339,
+      "f1-score": 0.8054324517512509,
+      "support": 3987.0
+    },
+    "1": {
+      "precision": 0.2158176943699732,
+      "recall": 0.6276803118908382,
+      "f1-score": 0.32119700748129676,
+      "support": 513.0
+    },
+    "accuracy": 0.6975555555555556,
+    "macro avg": {
+      "precision": 0.5761601769722207,
+      "recall": 0.667113293642936,
+      "f1-score": 0.5633147296162738,
+      "support": 4500.0
+    },
+    "weighted avg": {
+      "precision": 0.8543445735411557,
+      "recall": 0.6975555555555556,
+      "f1-score": 0.7502296111044762,
+      "support": 4500.0
+    }
+  },
+  "feature_importance": [
+    {
+      "feature": "sleep_efficiency",
+      "importance": 0.19268946162331058
+    },
+    {
+      "feature": "sleep_duration_hours",
+      "importance": 0.1618059441847697
+    },
+    {
+      "feature": "sleep_debt_hours",
+      "importance": 0.09893722210755494
+    },
+    {
+      "feature": "stress_level",
+      "importance": 0.0839677078951039
+    },
+    {
+      "feature": "sleep_latency_min",
+      "importance": 0.08145259163181881
+    },
+    {
+      "feature": "time_in_bed_hours",
+      "importance": 0.077586666828923
+    },
+    {
+      "feature": "screen_time_before_bed_min",
+      "importance": 0.0749881078068415
+    },
+    {
+      "feature": "exercise_minutes",
+      "importance": 0.05658207399164001
+    },
+    {
+      "feature": "wake_time_hour",
+      "importance": 0.048902864341227426
+    },
+    {
+      "feature": "bedtime_hour",
+      "importance": 0.04494257870118996
+    },
+    {
+      "feature": "wake_episodes",
+      "importance": 0.037632666970624486
+    },
+    {
+      "feature": "weekday",
+      "importance": 0.01899982452284343
+    },
+    {
+      "feature": "caffeine_after_16",
+      "importance": 0.01785203974197851
+    },
+    {
+      "feature": "is_weekend",
+      "importance": 0.0036602496521736614
+    }
+  ]
+}
