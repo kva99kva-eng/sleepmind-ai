@@ -223,3 +223,17 @@ Streamlit prototyping
 safe AI assistant design
 healthtech / sleeptech product thinking
 '@ | Set-Content -Encoding UTF8 README.md
+
+## Dashboard Screenshots
+
+### User Sleep Dashboard
+
+![User Sleep Dashboard](reports/figures/user_sleep_dashboard.png)
+
+### Product Analytics
+
+![Product Analytics](reports/figures/product_analytics.png)
+
+### ML Model
+
+![ML Model](reports/figures/ml_model.png)
