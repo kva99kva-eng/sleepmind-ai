@@ -1,4 +1,4 @@
-# SleepMind AI
+﻿# SleepMind AI
 
 **Sleep Product Analytics & AI Coaching Platform**
 
@@ -135,27 +135,27 @@ The coach does not provide medical diagnoses.
 
 Project Structure
 sleepmind-ai/
-├── app/
-│   └── streamlit_app.py
-├── data/
-│   ├── raw/
-│   ├── processed/
-│   └── synthetic/
-├── reports/
-│   ├── model_metrics.json
-│   └── sleep_model.joblib
-├── scripts/
-│   └── run_pipeline.py
-├── src/
-│   ├── __init__.py
-│   ├── coach.py
-│   ├── data_generation.py
-│   ├── features.py
-│   ├── metrics.py
-│   └── model.py
-├── .gitignore
-├── README.md
-└── requirements.txt
+в”њв”Ђв”Ђ app/
+в”‚   в””в”Ђв”Ђ streamlit_app.py
+в”њв”Ђв”Ђ data/
+в”‚   в”њв”Ђв”Ђ raw/
+в”‚   в”њв”Ђв”Ђ processed/
+в”‚   в””в”Ђв”Ђ synthetic/
+в”њв”Ђв”Ђ reports/
+в”‚   в”њв”Ђв”Ђ model_metrics.json
+в”‚   в””в”Ђв”Ђ sleep_model.joblib
+в”њв”Ђв”Ђ scripts/
+в”‚   в””в”Ђв”Ђ run_pipeline.py
+в”њв”Ђв”Ђ src/
+в”‚   в”њв”Ђв”Ђ __init__.py
+в”‚   в”њв”Ђв”Ђ coach.py
+в”‚   в”њв”Ђв”Ђ data_generation.py
+в”‚   в”њв”Ђв”Ђ features.py
+в”‚   в”њв”Ђв”Ђ metrics.py
+в”‚   в””в”Ђв”Ђ model.py
+в”њв”Ђв”Ђ .gitignore
+в”њв”Ђв”Ђ README.md
+в””в”Ђв”Ђ requirements.txt
 How to Run
 1. Create virtual environment
 
@@ -236,8 +236,17 @@ healthtech / sleeptech product thinking
 
 ### ML Model
 
-![ML Model](reports/figures/ml_model.png)
+Model quality metrics and feature importance:
 
+![ML Model Metrics](reports/figures/ml_model_metrics.png)
+
+Threshold analysis:
+
+![ML Model Threshold Analysis](reports/figures/ml_model_threshold_analysis.png)
+
+Confusion matrices:
+
+![ML Model Confusion Matrices](reports/figures/ml_model_confusion_matrices.png)
 ## Model Evaluation: Threshold Analysis
 
 The target variable `felt_rested` is imbalanced, so accuracy alone is not enough to evaluate the model.
@@ -267,3 +276,4 @@ Default threshold:
 Optimized threshold:
 
 ![Confusion Matrix Optimized](reports/figures/confusion_matrix_optimized.png)
+
