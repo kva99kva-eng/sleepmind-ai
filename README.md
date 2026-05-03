@@ -5,6 +5,16 @@
 SleepMind AI is a portfolio project that combines sleep behavior analytics, product metrics, machine learning, and a rule-based AI coaching assistant.
 
 The project is designed as a realistic MVP of a sleep-tech / digital health product.
+## Project Highlights
+
+- Built an end-to-end sleep analytics MVP: data generation, product metrics, ML model, AI coach, and dashboard.
+- Simulated a realistic sleep-tech product dataset with 22,500 user-day records.
+- Designed product analytics metrics: DAU rate, sleep log completion, insight view rate, coaching plan completion, and sleep improvement rate.
+- Trained a Random Forest model to predict whether a user is likely to feel rested.
+- Evaluated the model under class imbalance using balanced accuracy, ROC AUC, precision, recall, F1, threshold analysis, and confusion matrices.
+- Built a Streamlit dashboard for user sleep trends, product analytics, ML evaluation, and coaching recommendations.
+- Added a safe rule-based AI sleep coach with wellness-oriented recommendations and no medical diagnosis claims.
+
 
 ## Project Goal
 
@@ -276,4 +286,5 @@ Default threshold:
 Optimized threshold:
 
 ![Confusion Matrix Optimized](reports/figures/confusion_matrix_optimized.png)
+
 
