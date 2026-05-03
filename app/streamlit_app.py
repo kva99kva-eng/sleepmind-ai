@@ -1,6 +1,7 @@
 ﻿from __future__ import annotations
 
 from pathlib import Path
+import json
 import sys
 
 import pandas as pd
@@ -47,11 +48,34 @@ def train_model_cached(df: pd.DataFrame):
     return model, metrics
 
 
+@st.cache_data
+def load_evaluation_summary() -> dict | None:
+    summary_path = PROJECT_ROOT / "reports" / "evaluation_summary.json"
+
+    if not summary_path.exists():
+        return None
+
+    return json.loads(summary_path.read_text(encoding="utf-8"))
+
+
+@st.cache_data
+def load_threshold_metrics() -> pd.DataFrame | None:
+    threshold_path = PROJECT_ROOT / "reports" / "threshold_metrics.csv"
+
+    if not threshold_path.exists():
+        return None
+
+    return pd.read_csv(threshold_path)
+
+
 df = load_data()
 
 daily_metrics = calculate_daily_product_metrics(df)
 user_summary = calculate_user_sleep_summary(df)
 improvement_rate = calculate_sleep_improvement_rate(df)
+
+evaluation_summary = load_evaluation_summary()
+threshold_metrics = load_threshold_metrics()
 
 st.title("🌙 SleepMind AI")
 st.caption("Sleep Product Analytics & AI Coaching Platform")
@@ -209,6 +233,59 @@ with tab3:
     st.bar_chart(
         importance_df.set_index("feature")["importance"]
     )
+
+    st.divider()
+
+    st.subheader("Threshold Analysis")
+
+    if evaluation_summary is None or threshold_metrics is None:
+        st.warning(
+            "Evaluation files were not found. Run `python -m src.evaluation` to generate threshold analysis."
+        )
+    else:
+        default_metrics = evaluation_summary["default_metrics"]
+        optimized_metrics = evaluation_summary["optimized_metrics"]
+
+        col1, col2 = st.columns(2)
+
+        with col1:
+            st.markdown("### Default threshold: 0.50")
+            st.metric("Precision", default_metrics["precision"])
+            st.metric("Recall", default_metrics["recall"])
+            st.metric("F1", default_metrics["f1"])
+
+        with col2:
+            st.markdown(
+                f"### Optimized threshold: {evaluation_summary['optimized_threshold']:.2f}"
+            )
+            st.metric("Precision", optimized_metrics["precision"])
+            st.metric("Recall", optimized_metrics["recall"])
+            st.metric("F1", optimized_metrics["f1"])
+
+        st.write("Threshold metrics")
+
+        st.dataframe(
+            threshold_metrics,
+            width="stretch",
+        )
+
+        st.write("Confusion matrices")
+
+        cm_default_path = PROJECT_ROOT / "reports" / "figures" / "confusion_matrix_default.png"
+        cm_optimized_path = PROJECT_ROOT / "reports" / "figures" / "confusion_matrix_optimized.png"
+
+        col1, col2 = st.columns(2)
+
+        with col1:
+            if cm_default_path.exists():
+                st.image(str(cm_default_path), caption="Default threshold 0.50")
+
+        with col2:
+            if cm_optimized_path.exists():
+                st.image(
+                    str(cm_optimized_path),
+                    caption=f"Optimized threshold {evaluation_summary['optimized_threshold']:.2f}",
+                )
 
     with st.expander("Raw model metrics"):
         st.json(
