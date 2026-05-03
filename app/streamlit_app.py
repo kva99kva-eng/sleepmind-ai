@@ -152,7 +152,7 @@ with tab1:
                     "felt_rested",
                 ]
             ].tail(14),
-            use_container_width=True,
+            width="stretch",
         )
 
 
@@ -186,7 +186,7 @@ with tab2:
 
     st.dataframe(
         user_summary.sort_values("avg_sleep_quality", ascending=False),
-        use_container_width=True,
+        width="stretch",
     )
 
 
