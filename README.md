@@ -237,3 +237,33 @@ healthtech / sleeptech product thinking
 ### ML Model
 
 ![ML Model](reports/figures/ml_model.png)
+
+## Model Evaluation: Threshold Analysis
+
+The target variable `felt_rested` is imbalanced, so accuracy alone is not enough to evaluate the model.
+
+The model was evaluated with two probability thresholds:
+
+| Threshold | Accuracy | Balanced Accuracy | Precision | Recall | F1 |
+|---|---:|---:|---:|---:|---:|
+| 0.50 | 0.6976 | 0.6671 | 0.2158 | 0.6277 | 0.3212 |
+| 0.60 | 0.7922 | 0.6382 | 0.2580 | 0.4386 | 0.3249 |
+
+The optimized threshold `0.60` slightly improves F1 and precision, but reduces recall.
+
+This means the model becomes more conservative: it makes fewer positive predictions for `felt_rested = 1`, but those predictions are more reliable.
+
+For a sleep coaching product, the threshold choice depends on the product goal:
+
+- lower threshold: find more potentially rested users, but with more false positives;
+- higher threshold: make fewer but more confident positive predictions.
+
+### Confusion Matrices
+
+Default threshold:
+
+![Confusion Matrix Default](reports/figures/confusion_matrix_default.png)
+
+Optimized threshold:
+
+![Confusion Matrix Optimized](reports/figures/confusion_matrix_optimized.png)
