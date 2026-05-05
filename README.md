@@ -188,14 +188,6 @@ The coach does not provide medical diagnoses.
 
 ![ML Model Confusion Matrices](reports/figures/ml_model_confusion_matrices.png)
 
-### Confusion Matrix: Default Threshold
-
-![Confusion Matrix Default](reports/figures/confusion_matrix_default.png)
-
-### Confusion Matrix: Optimized Threshold
-
-![Confusion Matrix Optimized](reports/figures/confusion_matrix_optimized.png)
-
 ## Project Structure
 
 - `app/streamlit_app.py` — Streamlit dashboard
