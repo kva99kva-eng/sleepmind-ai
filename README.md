@@ -213,6 +213,14 @@ The coach does not provide medical diagnoses.
 
 ## How to Run
 
+Clone the repository:
+
+`git clone https://github.com/kva99kva-eng/sleepmind-ai.git`
+
+Go to the project folder:
+
+`cd sleepmind-ai`
+
 1. Create virtual environment:
 
 `python -m venv .venv`
@@ -258,7 +266,7 @@ Important limitations:
 - The project does not diagnose, treat, or prevent sleep disorders.
 - Recommendations are wellness-oriented and not medical advice.
 
-## Next Steps
+## Future Work
 
 Planned improvements:
 
@@ -282,3 +290,5 @@ This project demonstrates:
 - Streamlit prototyping;
 - safe AI assistant design;
 - healthtech / sleeptech product thinking.
+
+
