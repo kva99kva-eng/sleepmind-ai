@@ -1,4 +1,4 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 from dataclasses import dataclass
 from datetime import timedelta
@@ -17,10 +17,14 @@ class SyntheticDataConfig:
 
 
 def clip(value: float, low: float, high: float) -> float:
+    """Clip a numeric value to a closed interval and return it as float."""
     return float(max(low, min(high, value)))
 
 
-def generate_sleep_app_data(config: SyntheticDataConfig = SyntheticDataConfig()) -> pd.DataFrame:
+def generate_sleep_app_data(
+    config: SyntheticDataConfig = SyntheticDataConfig(),
+) -> pd.DataFrame:
+    """Generate synthetic user-day data for a sleep coaching app."""
     rng = np.random.default_rng(config.random_state)
     start = pd.to_datetime(config.start_date).date()
 
@@ -28,12 +32,10 @@ def generate_sleep_app_data(config: SyntheticDataConfig = SyntheticDataConfig())
 
     for user_idx in range(config.n_users):
         user_id = f"U{user_idx + 1:04d}"
-
         chronotype_shift = rng.normal(0, 0.7)
         baseline_stress = clip(rng.normal(5.0, 1.8), 1, 10)
         engagement_tendency = clip(rng.beta(4, 3), 0.05, 0.95)
         exercise_tendency = clip(rng.normal(35, 20), 0, 120)
-
         previous_quality = None
 
         for day_idx in range(config.n_days):
@@ -44,8 +46,15 @@ def generate_sleep_app_data(config: SyntheticDataConfig = SyntheticDataConfig())
             stress_level = clip(rng.normal(baseline_stress, 1.4), 1, 10)
             exercise_minutes = clip(rng.normal(exercise_tendency, 20), 0, 160)
 
-            caffeine_after_16 = rng.random() < (0.18 + 0.03 * max(stress_level - 5, 0))
-            screen_time_before_bed_min = clip(rng.normal(70 + 8 * stress_level, 35), 0, 240)
+            caffeine_after_16 = rng.random() < (
+                0.18 + 0.03 * max(stress_level - 5, 0)
+            )
+
+            screen_time_before_bed_min = clip(
+                rng.normal(70 + 8 * stress_level, 35),
+                0,
+                240,
+            )
 
             bedtime_hour = 23.2 + chronotype_shift + rng.normal(0, 0.55)
             if is_weekend:
@@ -61,7 +70,9 @@ def generate_sleep_app_data(config: SyntheticDataConfig = SyntheticDataConfig())
             )
             sleep_latency_min = clip(sleep_latency_min, 3, 110)
 
-            wake_lambda = 0.6 + 0.12 * stress_level + (0.4 if caffeine_after_16 else 0)
+            wake_lambda = 0.6 + 0.12 * stress_level + (
+                0.4 if caffeine_after_16 else 0
+            )
             wake_episodes = int(rng.poisson(wake_lambda))
             wake_episodes = min(wake_episodes, 8)
 
@@ -73,10 +84,8 @@ def generate_sleep_app_data(config: SyntheticDataConfig = SyntheticDataConfig())
                 + 0.006 * exercise_minutes
                 + rng.normal(0, 0.55)
             )
-
             if is_weekend:
                 sleep_duration_hours += rng.normal(0.35, 0.25)
-
             sleep_duration_hours = clip(sleep_duration_hours, 4.0, 10.5)
 
             time_in_bed_hours = (
@@ -105,20 +114,27 @@ def generate_sleep_app_data(config: SyntheticDataConfig = SyntheticDataConfig())
             )
 
             sleep_quality_score = int(round(clip(quality, 0, 100)))
-
             felt_rested_probability = 1 / (1 + np.exp(-(sleep_quality_score - 68) / 8))
             felt_rested = rng.random() < felt_rested_probability
 
             app_opened = rng.random() < (0.35 + 0.55 * engagement_tendency)
-            sleep_log_completed = app_opened and rng.random() < (0.55 + 0.3 * engagement_tendency)
-            insight_viewed = app_opened and rng.random() < (0.25 + 0.35 * engagement_tendency)
+            sleep_log_completed = app_opened and rng.random() < (
+                0.55 + 0.3 * engagement_tendency
+            )
+            insight_viewed = app_opened and rng.random() < (
+                0.25 + 0.35 * engagement_tendency
+            )
             coach_message_sent = insight_viewed and rng.random() < 0.65
 
             plan_completed_probability = 0.18 + 0.45 * engagement_tendency
             if previous_quality is not None and previous_quality < 60:
                 plan_completed_probability += 0.12
 
-            plan_completed = coach_message_sent and rng.random() < clip(plan_completed_probability, 0, 0.95)
+            plan_completed = coach_message_sent and rng.random() < clip(
+                plan_completed_probability,
+                0,
+                0.95,
+            )
 
             rows.append(
                 {
@@ -150,7 +166,10 @@ def generate_sleep_app_data(config: SyntheticDataConfig = SyntheticDataConfig())
     return pd.DataFrame(rows)
 
 
-def save_synthetic_data(output_path: str = "data/synthetic/sleep_app_data.csv") -> Path:
+def save_synthetic_data(
+    output_path: str | Path = "data/synthetic/sleep_app_data.csv",
+) -> Path:
+    """Generate and save synthetic sleep app data."""
     output_path = Path(output_path)
     output_path.parent.mkdir(parents=True, exist_ok=True)
 

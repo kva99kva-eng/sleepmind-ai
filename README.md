@@ -1,4 +1,4 @@
-﻿# SleepMind AI
+# SleepMind AI
 
 **Sleep Product Analytics & AI Coaching Platform**
 
@@ -14,7 +14,7 @@ The project is designed as a realistic MVP of a sleep-tech / digital health prod
 - Trained a Random Forest model to predict whether a user is likely to feel rested.
 - Evaluated the model under class imbalance using balanced accuracy, ROC AUC, precision, recall, F1, threshold analysis, and confusion matrices.
 - Built a Streamlit dashboard for user sleep trends, product analytics, ML evaluation, and coaching recommendations.
-- Added a safe rule-based AI sleep coach with wellness-oriented recommendations and no medical diagnosis claims.
+- Added a safe rule-based sleep coach with wellness-oriented recommendations and no medical diagnosis claims.
 
 ## Project Goal
 
@@ -36,7 +36,7 @@ SleepMind AI helps answer questions such as:
 - ML model for predicting `felt_rested`
 - Feature importance analysis
 - Threshold analysis and confusion matrices
-- Rule-based AI sleep coach
+- Rule-based sleep coach
 - Streamlit dashboard
 - Product case study
 
@@ -50,7 +50,7 @@ Dataset size:
 - 250 users
 - 90 days
 
-Main columns:
+Main columns include:
 
 - `user_id`
 - `date`
@@ -140,13 +140,11 @@ The target variable `felt_rested` is imbalanced, so accuracy alone is not enough
 The model was evaluated with two probability thresholds:
 
 | Threshold | Accuracy | Balanced Accuracy | Precision | Recall | F1 |
-|---|---:|---:|---:|---:|---:|
+|---:|---:|---:|---:|---:|---:|
 | 0.50 | 0.6976 | 0.6671 | 0.2158 | 0.6277 | 0.3212 |
 | 0.60 | 0.7922 | 0.6382 | 0.2580 | 0.4386 | 0.3249 |
 
 The optimized threshold `0.60` slightly improves F1 and precision, but reduces recall.
-
-This means the model becomes more conservative: it makes fewer positive predictions for `felt_rested = 1`, but those predictions are more reliable.
 
 For a sleep coaching product, the threshold choice depends on the product goal:
 
@@ -182,11 +180,11 @@ The coach does not provide medical diagnoses.
 
 ### ML Threshold Analysis
 
-![ML Model Threshold Analysis](reports/figures/ml_model_threshold_analysis.png)
+![ML Model Threshold Analysis](reports/figures/ml_threshold_analysis.png)
 
 ### ML Confusion Matrices
 
-![ML Model Confusion Matrices](reports/figures/ml_model_confusion_matrices.png)
+![ML Model Confusion Matrices](reports/figures/ml_confusion_matrices.png)
 
 ## Project Structure
 
@@ -207,44 +205,66 @@ The coach does not provide medical diagnoses.
 
 Clone the repository:
 
-`git clone https://github.com/kva99kva-eng/sleepmind-ai.git`
+```bash
+git clone https://github.com/kva99kva-eng/sleepmind-ai.git
+```
 
 Go to the project folder:
 
-`cd sleepmind-ai`
+```bash
+cd sleepmind-ai
+```
 
-1. Create virtual environment:
+Create a virtual environment:
 
-`python -m venv .venv`
+```bash
+python -m venv .venv
+```
 
-2. Activate virtual environment on Windows PowerShell:
+Activate the virtual environment on Windows PowerShell:
 
-`.\.venv\Scripts\Activate.ps1`
+```bash
+.\.venv\Scripts\Activate.ps1
+```
 
-3. Install dependencies:
+Install dependencies:
 
-`pip install -r requirements.txt`
+```bash
+pip install -r requirements.txt
+```
 
-4. Run the full pipeline:
+Run the full pipeline:
 
-`python scripts\run_pipeline.py`
+```bash
+python scripts\run_pipeline.py
+```
 
-5. Run the Streamlit dashboard:
+Run threshold evaluation:
 
-`streamlit run app\streamlit_app.py`
+```bash
+python -m src.evaluation
+```
+
+Run the Streamlit dashboard:
+
+```bash
+streamlit run app\streamlit_app.py
+```
 
 If Streamlit is not recognized:
 
-`python -m streamlit run app\streamlit_app.py`
+```bash
+python -m streamlit run app\streamlit_app.py
+```
 
 ## Dashboard Tabs
 
 The Streamlit app contains four tabs:
 
-1. **User Sleep Dashboard** — individual sleep trends and recent sleep logs.
-2. **Product Analytics** — engagement metrics and user-level summaries.
-3. **ML Model** — model quality metrics, feature importance, threshold analysis, and confusion matrices.
-4. **AI Coach** — personalized weekly sleep insight and recommendations.
+1. User Sleep Dashboard — individual sleep trends and recent sleep logs.
+2. Product Analytics — engagement metrics and user-level summaries.
+3. ML Model — model quality metrics, feature importance, threshold analysis, and confusion matrices.
+4. AI Coach — personalized weekly sleep insight and recommendations.
 
 ## Limitations
 
@@ -254,7 +274,7 @@ Important limitations:
 
 - The dataset is synthetic.
 - The model is not validated on real clinical or wearable data.
-- The AI coach is rule-based.
+- The sleep coach is rule-based.
 - The project does not diagnose, treat, or prevent sleep disorders.
 - Recommendations are wellness-oriented and not medical advice.
 
@@ -283,4 +303,6 @@ This project demonstrates:
 - safe AI assistant design;
 - healthtech / sleeptech product thinking.
 
+## License
 
+This project is licensed under the MIT License.

@@ -1,22 +1,19 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 from pathlib import Path
-import json
 import sys
 
 import pandas as pd
 
-
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(PROJECT_ROOT))
-
 
 from src.data_generation import save_synthetic_data
 from src.metrics import (
     calculate_daily_product_metrics,
     calculate_sleep_improvement_rate,
 )
-from src.model import train_sleep_model, save_model_outputs
+from src.model import save_model_outputs, train_sleep_model
 
 
 def main() -> None:
@@ -27,10 +24,9 @@ def main() -> None:
 
     print("Step 1/4: Generating synthetic sleep app data...")
     save_synthetic_data(str(data_path))
-
     df = pd.read_csv(data_path)
 
-    print(f"Dataset saved to: {data_path}")
+    print(f"Dataset saved to: {data_path.relative_to(PROJECT_ROOT)}")
     print(f"Rows: {len(df):,}")
     print(f"Users: {df['user_id'].nunique():,}")
 
@@ -41,7 +37,7 @@ def main() -> None:
 
     improvement_rate = calculate_sleep_improvement_rate(df)
 
-    print(f"Daily product metrics saved to: {daily_metrics_path}")
+    print(f"Daily product metrics saved to: {daily_metrics_path.relative_to(PROJECT_ROOT)}")
     print(f"Sleep improvement rate: {improvement_rate:.2%}")
 
     print("\nStep 3/4: Training sleep quality prediction model...")
@@ -54,8 +50,8 @@ def main() -> None:
         metrics_path=model_metrics_path,
     )
 
-    print(f"Model saved to: {model_path}")
-    print(f"Model metrics saved to: {model_metrics_path}")
+    print(f"Model saved to: {model_path.relative_to(PROJECT_ROOT)}")
+    print(f"Model metrics saved to: {model_metrics_path.relative_to(PROJECT_ROOT)}")
 
     print("\nStep 4/4: Final model metrics:")
     print(f"Accuracy: {model_metrics['accuracy']}")

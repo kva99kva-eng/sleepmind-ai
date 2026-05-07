@@ -1,4 +1,4 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 from typing import List
 
@@ -6,10 +6,7 @@ import pandas as pd
 
 
 def _format_hour(hour_float: float) -> str:
-    """
-    Convert float hour to HH:MM format.
-    Example: 23.5 -> 23:30
-    """
+    """Convert float hour to HH:MM format. Example: 23.5 -> 23:30."""
     hour = int(hour_float) % 24
     minute = int(round((hour_float - int(hour_float)) * 60))
 
@@ -24,11 +21,14 @@ def generate_sleep_coach_message(user_df: pd.DataFrame) -> str:
     """
     Generate safe, non-medical sleep coaching message.
 
-    This is not a medical diagnosis.
-    The goal is to explain behavioral patterns and suggest simple wellness actions.
+    This is not a medical diagnosis. The goal is to explain behavioral
+    patterns and suggest simple wellness actions.
     """
     if user_df.empty:
-        return "Not enough data yet. Track your sleep for several days to receive personalized insights."
+        return (
+            "Not enough data yet. "
+            "Track your sleep for several days to receive personalized insights."
+        )
 
     data = user_df.copy()
     data["date"] = pd.to_datetime(data["date"])
@@ -55,11 +55,13 @@ def generate_sleep_coach_message(user_df: pd.DataFrame) -> str:
 
         if delta >= 5:
             insights.append(
-                f"Your sleep quality improved by about {delta:.1f} points compared with the previous week."
+                f"Your sleep quality improved by about {delta:.1f} points "
+                "compared with the previous week."
             )
         elif delta <= -5:
             insights.append(
-                f"Your sleep quality decreased by about {abs(delta):.1f} points compared with the previous week."
+                f"Your sleep quality decreased by about {abs(delta):.1f} points "
+                "compared with the previous week."
             )
         else:
             insights.append(
@@ -75,54 +77,60 @@ def generate_sleep_coach_message(user_df: pd.DataFrame) -> str:
             f"Your average sleep duration for the last 7 days is {avg_duration:.1f} hours."
         )
         actions.append(
-            "Try to protect a slightly longer sleep window tonight. Even 20–30 extra minutes can help build consistency."
+            "Try to protect a slightly longer sleep window tonight. "
+            "Even 20–30 extra minutes can help build consistency."
         )
     else:
         insights.append(
             f"Your average sleep duration for the last 7 days is {avg_duration:.1f} hours."
         )
 
-    if bedtime_std and bedtime_std > 0.75:
+    if pd.notna(bedtime_std) and bedtime_std > 0.75:
         actions.append(
-            "Your bedtime varies a lot. For the next week, choose one realistic wake-up time and keep it stable."
+            "Your bedtime varies a lot. "
+            "For the next week, choose one realistic wake-up time and keep it stable."
         )
     elif len(recent) >= 4:
         median_bedtime = recent["bedtime_hour"].median()
-        insights.append(
-            f"Your bedtime is fairly consistent around {_format_hour(median_bedtime)}."
-        )
+        insights.append(f"Your bedtime is fairly consistent around {_format_hour(median_bedtime)}.")
 
     if avg_latency > 35:
         insights.append(
             f"It takes you about {avg_latency:.0f} minutes to fall asleep on average."
         )
         actions.append(
-            "Create a 30-minute wind-down routine: dim lights, avoid work tasks, and keep the phone away from bed."
+            "Create a 30-minute wind-down routine: dim lights, avoid work tasks, "
+            "and keep the phone away from bed."
         )
 
     if avg_screen > 90:
         actions.append(
-            "Screen time before bed is high. Try reducing it by 20 minutes for the next 3 nights and compare sleep quality."
+            "Screen time before bed is high. "
+            "Try reducing it by 20 minutes for the next 3 nights and compare sleep quality."
         )
 
     if avg_stress > 7:
         actions.append(
-            "Stress looks elevated. Add a short decompression habit before sleep: breathing, stretching, or a simple paper to-do list."
+            "Stress looks elevated. Add a short decompression habit before sleep: "
+            "breathing, stretching, or a simple paper to-do list."
         )
 
     if caffeine_days >= 2:
         actions.append(
-            f"You had caffeine after 16:00 on {caffeine_days} of the last 7 days. Try moving caffeine earlier for one week."
+            f"You had caffeine after 16:00 on {caffeine_days} of the last 7 days. "
+            "Try moving caffeine earlier for one week."
         )
 
     if avg_wake > 2:
         actions.append(
-            "Night wake-ups are frequent. Keep the bedroom cool and dark, and avoid checking the phone when you wake up."
+            "Night wake-ups are frequent. Keep the bedroom cool and dark, "
+            "and avoid checking the phone when you wake up."
         )
 
     if not actions:
         actions.append(
-            "Keep the current routine. The next improvement target is consistency: same wake-up time and similar bedtime."
+            "Keep the current routine. The next improvement target is consistency: "
+            "same wake-up time and similar bedtime."
         )
 
     disclaimer = (
@@ -132,10 +140,8 @@ def generate_sleep_coach_message(user_df: pd.DataFrame) -> str:
 
     message = "### Weekly sleep insight\n\n"
     message += "\n".join(f"- {item}" for item in insights[:4])
-
     message += "\n\n### Suggested next steps\n\n"
     message += "\n".join(f"- {item}" for item in actions[:4])
-
     message += f"\n\n_{disclaimer}_"
 
     return message
@@ -143,10 +149,8 @@ def generate_sleep_coach_message(user_df: pd.DataFrame) -> str:
 
 if __name__ == "__main__":
     df = pd.read_csv("data/synthetic/sleep_app_data.csv")
-
     user_id = "U0001"
     user_df = df[df["user_id"] == user_id]
-
     message = generate_sleep_coach_message(user_df)
 
     print(f"AI Sleep Coach message for {user_id}:")

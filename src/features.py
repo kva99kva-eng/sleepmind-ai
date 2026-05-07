@@ -1,4 +1,4 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 from typing import Tuple
 
@@ -27,16 +27,11 @@ FEATURE_COLUMNS = [
 
 
 def add_features(df: pd.DataFrame) -> pd.DataFrame:
-    """
-    Add calendar and sleep behavior features for ML model.
-    """
+    """Add calendar and sleep behavior features for ML model."""
     data = df.copy()
-
     data["date"] = pd.to_datetime(data["date"])
-
     data["weekday"] = data["date"].dt.weekday
     data["is_weekend"] = (data["weekday"] >= 5).astype(int)
-
     data["sleep_debt_hours"] = (7.0 - data["sleep_duration_hours"]).clip(lower=0)
 
     return data
@@ -47,9 +42,7 @@ def build_train_test_data(
     test_size: float = 0.2,
     random_state: int = 42,
 ) -> Tuple[pd.DataFrame, pd.DataFrame, pd.Series, pd.Series]:
-    """
-    Prepare train and test datasets.
-    """
+    """Prepare train and test datasets."""
     data = add_features(df)
 
     X = data[FEATURE_COLUMNS]
@@ -66,7 +59,6 @@ def build_train_test_data(
 
 if __name__ == "__main__":
     df = pd.read_csv("data/synthetic/sleep_app_data.csv")
-
     data_with_features = add_features(df)
     X_train, X_test, y_train, y_test = build_train_test_data(df)
 

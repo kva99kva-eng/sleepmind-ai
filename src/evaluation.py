@@ -1,12 +1,10 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 from pathlib import Path
 import json
-import sys
 
 import matplotlib.pyplot as plt
 import pandas as pd
-
 from sklearn.metrics import (
     ConfusionMatrixDisplay,
     accuracy_score,
@@ -27,9 +25,7 @@ def evaluate_thresholds(
     y_prob,
     thresholds: list[float],
 ) -> pd.DataFrame:
-    """
-    Evaluate model quality at different probability thresholds.
-    """
+    """Evaluate model quality at different probability thresholds."""
     rows = []
 
     for threshold in thresholds:
@@ -55,15 +51,14 @@ def save_confusion_matrix_plot(
     output_path: str | Path,
     title: str,
 ) -> None:
-    """
-    Save confusion matrix plot.
-    """
+    """Save confusion matrix plot."""
     output_path = Path(output_path)
     output_path.parent.mkdir(parents=True, exist_ok=True)
 
     cm = confusion_matrix(y_true, y_pred)
 
     fig, ax = plt.subplots(figsize=(6, 5))
+
     display = ConfusionMatrixDisplay(
         confusion_matrix=cm,
         display_labels=["not rested", "rested"],
@@ -80,9 +75,7 @@ def run_evaluation(
     data_path: str | Path = "data/synthetic/sleep_app_data.csv",
     reports_dir: str | Path = "reports",
 ) -> dict:
-    """
-    Train model, evaluate threshold tuning, and save evaluation artifacts.
-    """
+    """Train model, evaluate threshold tuning, and save evaluation artifacts."""
     data_path = Path(data_path)
     reports_dir = Path(reports_dir)
 
@@ -94,7 +87,6 @@ def run_evaluation(
     model.fit(X_train, y_train)
 
     y_prob = model.predict_proba(X_test)[:, 1]
-
     thresholds = [round(x / 100, 2) for x in range(10, 91, 5)]
 
     threshold_metrics = evaluate_thresholds(
@@ -104,6 +96,7 @@ def run_evaluation(
     )
 
     threshold_metrics_path = reports_dir / "threshold_metrics.csv"
+    threshold_metrics_path.parent.mkdir(parents=True, exist_ok=True)
     threshold_metrics.to_csv(threshold_metrics_path, index=False)
 
     best_row = threshold_metrics.sort_values("f1", ascending=False).iloc[0]

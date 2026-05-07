@@ -1,4 +1,4 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 from pathlib import Path
 import json
@@ -7,11 +7,10 @@ import sys
 import pandas as pd
 import streamlit as st
 
-
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(PROJECT_ROOT))
 
-
+from src.coach import generate_sleep_coach_message
 from src.data_generation import save_synthetic_data
 from src.metrics import (
     calculate_daily_product_metrics,
@@ -19,7 +18,6 @@ from src.metrics import (
     calculate_user_sleep_summary,
 )
 from src.model import train_sleep_model
-from src.coach import generate_sleep_coach_message
 
 
 st.set_page_config(
@@ -69,15 +67,13 @@ def load_threshold_metrics() -> pd.DataFrame | None:
 
 
 df = load_data()
-
 daily_metrics = calculate_daily_product_metrics(df)
 user_summary = calculate_user_sleep_summary(df)
 improvement_rate = calculate_sleep_improvement_rate(df)
-
 evaluation_summary = load_evaluation_summary()
 threshold_metrics = load_threshold_metrics()
 
-st.title("🌙 SleepMind AI")
+st.title("SleepMind AI")
 st.caption("Sleep Product Analytics & AI Coaching Platform")
 
 with st.sidebar:
@@ -96,7 +92,6 @@ with st.sidebar:
         max_value=max_date,
     )
 
-
 if isinstance(date_range, tuple) and len(date_range) == 2:
     start_date = pd.to_datetime(date_range[0])
     end_date = pd.to_datetime(date_range[1])
@@ -104,14 +99,8 @@ else:
     start_date = df["date"].min()
     end_date = df["date"].max()
 
-
-filtered_df = df[
-    (df["date"] >= start_date)
-    & (df["date"] <= end_date)
-].copy()
-
+filtered_df = df[(df["date"] >= start_date) & (df["date"] <= end_date)].copy()
 user_df = filtered_df[filtered_df["user_id"] == selected_user].sort_values("date")
-
 
 tab1, tab2, tab3, tab4 = st.tabs(
     [
@@ -121,7 +110,6 @@ tab1, tab2, tab3, tab4 = st.tabs(
         "AI Coach",
     ]
 )
-
 
 with tab1:
     st.subheader(f"User Sleep Dashboard: {selected_user}")
@@ -149,18 +137,15 @@ with tab1:
         )
 
         st.write("Sleep duration and quality trend")
-
         sleep_chart = user_df.set_index("date")[
             [
                 "sleep_duration_hours",
                 "sleep_quality_score",
             ]
         ]
-
         st.line_chart(sleep_chart)
 
         st.write("Recent sleep logs")
-
         st.dataframe(
             user_df[
                 [
@@ -176,15 +161,13 @@ with tab1:
                     "felt_rested",
                 ]
             ].tail(14),
-            width="stretch",
+            use_container_width=True,
         )
-
 
 with tab2:
     st.subheader("Product Analytics")
 
     col1, col2, col3, col4 = st.columns(4)
-
     col1.metric("Users", f"{filtered_df['user_id'].nunique():,}")
     col2.metric("Avg DAU rate", f"{daily_metrics['dau_rate'].mean():.0%}")
     col3.metric(
@@ -194,7 +177,6 @@ with tab2:
     col4.metric("Sleep improvement rate", f"{improvement_rate:.0%}")
 
     st.write("Daily engagement metrics")
-
     engagement_chart = daily_metrics.set_index("date")[
         [
             "dau_rate",
@@ -203,44 +185,35 @@ with tab2:
             "coach_plan_completion_rate",
         ]
     ]
-
     st.line_chart(engagement_chart)
 
     st.write("User-level summary")
-
     st.dataframe(
         user_summary.sort_values("avg_sleep_quality", ascending=False),
-        width="stretch",
+        use_container_width=True,
     )
-
 
 with tab3:
     st.subheader("ML Model: Predict `felt_rested`")
-
     model, model_metrics = train_model_cached(df)
 
     col1, col2, col3, col4 = st.columns(4)
-
     col1.metric("Accuracy", model_metrics["accuracy"])
     col2.metric("Balanced accuracy", model_metrics["balanced_accuracy"])
     col3.metric("F1", model_metrics["f1"])
     col4.metric("ROC AUC", model_metrics["roc_auc"])
 
     st.write("Top feature importance")
-
     importance_df = pd.DataFrame(model_metrics["feature_importance"])
-
-    st.bar_chart(
-        importance_df.set_index("feature")["importance"]
-    )
+    st.bar_chart(importance_df.set_index("feature")["importance"])
 
     st.divider()
-
     st.subheader("Threshold Analysis")
 
     if evaluation_summary is None or threshold_metrics is None:
         st.warning(
-            "Evaluation files were not found. Run `python -m src.evaluation` to generate threshold analysis."
+            "Evaluation files were not found. "
+            "Run `python -m src.evaluation` to generate threshold analysis."
         )
     else:
         default_metrics = evaluation_summary["default_metrics"]
@@ -263,14 +236,9 @@ with tab3:
             st.metric("F1", optimized_metrics["f1"])
 
         st.write("Threshold metrics")
-
-        st.dataframe(
-            threshold_metrics,
-            width="stretch",
-        )
+        st.dataframe(threshold_metrics, use_container_width=True)
 
         st.write("Confusion matrices")
-
         cm_default_path = PROJECT_ROOT / "reports" / "figures" / "confusion_matrix_default.png"
         cm_optimized_path = PROJECT_ROOT / "reports" / "figures" / "confusion_matrix_optimized.png"
 
@@ -287,19 +255,17 @@ with tab3:
                     caption=f"Optimized threshold {evaluation_summary['optimized_threshold']:.2f}",
                 )
 
-    with st.expander("Raw model metrics"):
-        st.json(
-            {
-                key: value
-                for key, value in model_metrics.items()
-                if key != "classification_report"
-            }
-        )
-
+        with st.expander("Raw model metrics"):
+            st.json(
+                {
+                    key: value
+                    for key, value in model_metrics.items()
+                    if key != "classification_report"
+                }
+            )
 
 with tab4:
     st.subheader("AI Sleep Coach")
-
     st.markdown(generate_sleep_coach_message(user_df))
 
     st.info(
