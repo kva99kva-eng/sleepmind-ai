@@ -181,11 +181,11 @@ The coach does not provide medical diagnoses.
 
 ### ML Threshold Analysis
 
-![ML Model Threshold Analysis](reports/figures/ml_threshold_analysis.png)
+![ML Model Threshold Analysis](reports/figures/ml_model_threshold_analysis.png)
 
 ### ML Confusion Matrices
 
-![ML Model Confusion Matrices](reports/figures/ml_confusion_matrices.png)
+![ML Model Confusion Matrices](reports/figures/ml_model_confusion_matrices.png)
 
 ## Project Structure
 
