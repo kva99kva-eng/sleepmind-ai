@@ -17,6 +17,7 @@ from src.model import save_model_outputs, train_sleep_model
 
 
 def main() -> None:
+    """Run the full SleepMind AI pipeline."""
     data_path = PROJECT_ROOT / "data" / "synthetic" / "sleep_app_data.csv"
     daily_metrics_path = PROJECT_ROOT / "data" / "processed" / "daily_product_metrics.csv"
     model_path = PROJECT_ROOT / "reports" / "sleep_model.joblib"

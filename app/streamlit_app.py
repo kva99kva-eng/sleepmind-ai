@@ -29,6 +29,7 @@ st.set_page_config(
 
 @st.cache_data
 def load_data() -> pd.DataFrame:
+    """Load synthetic sleep app data."""
     data_path = PROJECT_ROOT / "data" / "synthetic" / "sleep_app_data.csv"
 
     if not data_path.exists():
@@ -42,12 +43,14 @@ def load_data() -> pd.DataFrame:
 
 @st.cache_resource
 def train_model_cached(df: pd.DataFrame):
+    """Train model once per app session."""
     model, metrics = train_sleep_model(df)
     return model, metrics
 
 
 @st.cache_data
 def load_evaluation_summary() -> dict | None:
+    """Load threshold evaluation summary if it exists."""
     summary_path = PROJECT_ROOT / "reports" / "evaluation_summary.json"
 
     if not summary_path.exists():
@@ -58,6 +61,7 @@ def load_evaluation_summary() -> dict | None:
 
 @st.cache_data
 def load_threshold_metrics() -> pd.DataFrame | None:
+    """Load threshold metrics if they exist."""
     threshold_path = PROJECT_ROOT / "reports" / "threshold_metrics.csv"
 
     if not threshold_path.exists():
@@ -237,23 +241,6 @@ with tab3:
 
         st.write("Threshold metrics")
         st.dataframe(threshold_metrics, use_container_width=True)
-
-        st.write("Confusion matrices")
-        cm_default_path = PROJECT_ROOT / "reports" / "figures" / "confusion_matrix_default.png"
-        cm_optimized_path = PROJECT_ROOT / "reports" / "figures" / "confusion_matrix_optimized.png"
-
-        col1, col2 = st.columns(2)
-
-        with col1:
-            if cm_default_path.exists():
-                st.image(str(cm_default_path), caption="Default threshold 0.50")
-
-        with col2:
-            if cm_optimized_path.exists():
-                st.image(
-                    str(cm_optimized_path),
-                    caption=f"Optimized threshold {evaluation_summary['optimized_threshold']:.2f}",
-                )
 
         with st.expander("Raw model metrics"):
             st.json(

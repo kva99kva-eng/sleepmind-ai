@@ -145,14 +145,3 @@ def generate_sleep_coach_message(user_df: pd.DataFrame) -> str:
     message += f"\n\n_{disclaimer}_"
 
     return message
-
-
-if __name__ == "__main__":
-    df = pd.read_csv("data/synthetic/sleep_app_data.csv")
-    user_id = "U0001"
-    user_df = df[df["user_id"] == user_id]
-    message = generate_sleep_coach_message(user_df)
-
-    print(f"AI Sleep Coach message for {user_id}:")
-    print()
-    print(message)

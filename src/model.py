@@ -109,19 +109,3 @@ def save_model_outputs(
         json.dumps(metrics, indent=2),
         encoding="utf-8",
     )
-
-
-if __name__ == "__main__":
-    df = pd.read_csv("data/synthetic/sleep_app_data.csv")
-    model, metrics = train_sleep_model(df)
-    save_model_outputs(model, metrics)
-
-    print("Model metrics:")
-    print(f"Accuracy: {metrics['accuracy']}")
-    print(f"Balanced accuracy: {metrics['balanced_accuracy']}")
-    print(f"F1: {metrics['f1']}")
-    print(f"ROC AUC: {metrics['roc_auc']}")
-
-    print("\nTop feature importance:")
-    importance = pd.DataFrame(metrics["feature_importance"])
-    print(importance.head(10))

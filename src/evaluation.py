@@ -155,9 +155,3 @@ if __name__ == "__main__":
 
     print("Evaluation summary:")
     print(json.dumps(summary, indent=2))
-
-    print("\nSaved files:")
-    print("- reports/threshold_metrics.csv")
-    print("- reports/evaluation_summary.json")
-    print("- reports/figures/confusion_matrix_default.png")
-    print("- reports/figures/confusion_matrix_optimized.png")

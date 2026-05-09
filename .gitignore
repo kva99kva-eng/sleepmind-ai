@@ -30,6 +30,5 @@ Thumbs.db
 *.joblib
 *.pkl
 
-# Large or temporary data
-data/raw/
+# Temporary data
 data/tmp/

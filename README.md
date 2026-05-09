@@ -2,47 +2,44 @@
 
 **Sleep Product Analytics & AI Coaching Platform**
 
-SleepMind AI is a portfolio project that combines sleep behavior analytics, product metrics, machine learning, threshold analysis, and a rule-based AI coaching assistant.
+SleepMind AI is a portfolio project that combines sleep behavior analytics, product metrics, machine learning, threshold analysis and a rule-based AI coaching assistant.
 
 The project is designed as a realistic MVP of a sleep-tech / digital health product.
 
+## Executive Summary
+
+This project demonstrates an end-to-end product analytics and ML workflow for a simulated sleep coaching app.
+
+I generated a synthetic user-day dataset, designed product metrics, trained a model to predict whether a user is likely to feel rested, evaluated model behavior under class imbalance, and built a Streamlit dashboard with a safe rule-based sleep coach.
+
+The strongest part of the project is the product framing: the model is not treated as a standalone ML task, but as part of a user-facing decision system where threshold choice, engagement metrics and recommendation safety matter.
+
+Key analytical decisions:
+
+- modeled a realistic sleep-tech product journey;
+- separated product metrics from ML quality metrics;
+- evaluated model behavior under class imbalance;
+- compared thresholds using precision, recall and F1;
+- avoided medical claims in the AI coach;
+- documented limitations of synthetic data.
+
+## Product Question
+
+How can a sleep coaching app use behavioral and sleep-tracking data to understand user engagement, predict whether users feel rested, and provide safe non-medical coaching suggestions?
+
 ## Project Highlights
 
-- Built an end-to-end sleep analytics MVP: data generation, product metrics, ML model, AI coach, and dashboard.
-- Simulated a realistic sleep-tech product dataset with 22,500 user-day records.
-- Designed product analytics metrics: DAU rate, sleep log completion, insight view rate, coaching plan completion, and sleep improvement rate.
-- Trained a Random Forest model to predict whether a user is likely to feel rested.
-- Evaluated the model under class imbalance using balanced accuracy, ROC AUC, precision, recall, F1, threshold analysis, and confusion matrices.
-- Built a Streamlit dashboard for user sleep trends, product analytics, ML evaluation, and coaching recommendations.
+- Built an end-to-end sleep analytics MVP: data generation, product metrics, ML model, AI coach and dashboard.
+- Simulated a sleep-tech product dataset with 22,500 user-day records.
+- Designed product metrics: DAU rate, sleep log completion, insight view rate, coaching plan completion and sleep improvement rate.
+- Trained a Random Forest model to predict `felt_rested`.
+- Evaluated the model under class imbalance using balanced accuracy, ROC AUC, precision, recall, F1, threshold analysis and confusion matrices.
+- Built a Streamlit dashboard for user sleep trends, product analytics, ML evaluation and coaching recommendations.
 - Added a safe rule-based sleep coach with wellness-oriented recommendations and no medical diagnosis claims.
-
-## Project Goal
-
-Many users track their sleep, but raw sleep numbers are often hard to interpret.
-
-SleepMind AI helps answer questions such as:
-
-- How stable is the user's sleep routine?
-- Is sleep quality improving over time?
-- Which habits are associated with worse sleep?
-- Do users engage with insights and coaching recommendations?
-- Can we predict whether a user will feel rested?
-
-## Key Features
-
-- Synthetic sleep app dataset generation
-- User sleep dashboard
-- Product analytics metrics
-- ML model for predicting `felt_rested`
-- Feature importance analysis
-- Threshold analysis and confusion matrices
-- Rule-based sleep coach
-- Streamlit dashboard
-- Product case study
 
 ## Dataset
 
-The MVP uses synthetic user-day sleep data. Each row represents one user on one day.
+The MVP uses synthetic user-day sleep data.
 
 Dataset size:
 
@@ -91,7 +88,11 @@ These metrics imitate how a product analyst would evaluate a sleep coaching app.
 
 The machine learning task is binary classification.
 
-Target: `felt_rested`
+Target:
+
+```text
+felt_rested
+```
 
 The model predicts whether a user is likely to feel rested based on sleep and behavior features.
 
@@ -133,7 +134,7 @@ Top important features:
 4. stress level
 5. sleep latency minutes
 
-## Model Evaluation: Threshold Analysis
+## Threshold Analysis
 
 The target variable `felt_rested` is imbalanced, so accuracy alone is not enough to evaluate the model.
 
@@ -188,18 +189,30 @@ The coach does not provide medical diagnoses.
 
 ## Project Structure
 
-- `app/streamlit_app.py` — Streamlit dashboard
-- `src/data_generation.py` — synthetic sleep app data generation
-- `src/metrics.py` — product analytics metrics
-- `src/features.py` — feature engineering
-- `src/model.py` — ML model training
-- `src/evaluation.py` — threshold analysis and confusion matrices
-- `src/coach.py` — rule-based sleep coaching assistant
-- `scripts/run_pipeline.py` — end-to-end project pipeline
-- `reports/product_case_study.md` — product case study
-- `reports/model_metrics.json` — model metrics
-- `reports/evaluation_summary.json` — threshold evaluation summary
-- `reports/threshold_metrics.csv` — threshold metrics table
+```text
+sleepmind-ai/
+├── app/
+│   └── streamlit_app.py
+├── data/
+│   ├── processed/
+│   └── synthetic/
+├── reports/
+│   ├── figures/
+│   ├── model_metrics.json
+│   ├── evaluation_summary.json
+│   └── threshold_metrics.csv
+├── scripts/
+│   └── run_pipeline.py
+├── src/
+│   ├── coach.py
+│   ├── data_generation.py
+│   ├── evaluation.py
+│   ├── features.py
+│   ├── metrics.py
+│   └── model.py
+├── README.md
+└── requirements.txt
+```
 
 ## How to Run
 
@@ -207,11 +220,6 @@ Clone the repository:
 
 ```bash
 git clone https://github.com/kva99kva-eng/sleepmind-ai.git
-```
-
-Go to the project folder:
-
-```bash
 cd sleepmind-ai
 ```
 
@@ -263,7 +271,7 @@ The Streamlit app contains four tabs:
 
 1. User Sleep Dashboard — individual sleep trends and recent sleep logs.
 2. Product Analytics — engagement metrics and user-level summaries.
-3. ML Model — model quality metrics, feature importance, threshold analysis, and confusion matrices.
+3. ML Model — model quality metrics, feature importance, threshold analysis and confusion matrices.
 4. AI Coach — personalized weekly sleep insight and recommendations.
 
 ## Limitations
@@ -275,7 +283,7 @@ Important limitations:
 - The dataset is synthetic.
 - The model is not validated on real clinical or wearable data.
 - The sleep coach is rule-based.
-- The project does not diagnose, treat, or prevent sleep disorders.
+- The project does not diagnose, treat or prevent sleep disorders.
 - Recommendations are wellness-oriented and not medical advice.
 
 ## Future Work
@@ -288,6 +296,7 @@ Planned improvements:
 - Add real wearable or sleep dataset.
 - Add Sleep-EDF EEG-based sleep staging module.
 - Improve model evaluation for imbalanced classification.
+- Add tests for metrics and feature engineering.
 
 ## Portfolio Positioning
 
@@ -302,6 +311,10 @@ This project demonstrates:
 - Streamlit prototyping;
 - safe AI assistant design;
 - healthtech / sleeptech product thinking.
+
+## Resume Summary
+
+Built a sleep-tech product analytics MVP with synthetic user-day data, product metrics, Random Forest model, threshold analysis, Streamlit dashboard and safe rule-based sleep coaching logic.
 
 ## License
 

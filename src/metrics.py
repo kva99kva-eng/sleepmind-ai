@@ -85,18 +85,3 @@ def calculate_sleep_improvement_rate(df: pd.DataFrame, window_days: int = 14) ->
         return 0.0
 
     return round(sum(improved_users) / len(improved_users), 4)
-
-
-if __name__ == "__main__":
-    df = pd.read_csv("data/synthetic/sleep_app_data.csv")
-    daily_metrics = calculate_daily_product_metrics(df)
-    user_summary = calculate_user_sleep_summary(df)
-    improvement_rate = calculate_sleep_improvement_rate(df)
-
-    print("Daily metrics:")
-    print(daily_metrics.head())
-
-    print("\nUser summary:")
-    print(user_summary.head())
-
-    print(f"\nSleep improvement rate: {improvement_rate:.2%}")
