@@ -1,5 +1,7 @@
 # SleepMind AI
 
+[![Python checks](https://github.com/kva99kva-eng/sleepmind-ai/actions/workflows/python-checks.yml/badge.svg)](https://github.com/kva99kva-eng/sleepmind-ai/actions/workflows/python-checks.yml)
+
 **Sleep Product Analytics & AI Coaching Platform**
 
 SleepMind AI is a portfolio project that combines sleep behavior analytics, product metrics, machine learning, threshold analysis and a rule-based AI coaching assistant.
