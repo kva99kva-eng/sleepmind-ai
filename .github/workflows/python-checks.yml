@@ -24,6 +24,11 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           python -m pip install -r requirements.txt
+          python -m pip install pytest
+
+      - name: Verify imports
+        run: |
+          python -c "import numpy; import pandas; import sklearn; import streamlit; print('imports ok')"
 
       - name: Compile Python files
         run: python -m compileall app scripts src
