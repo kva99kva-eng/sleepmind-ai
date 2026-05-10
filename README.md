@@ -1,5 +1,6 @@
 # SleepMind AI
 
+
 [![Python checks](https://github.com/kva99kva-eng/sleepmind-ai/actions/workflows/python-checks.yml/badge.svg)](https://github.com/kva99kva-eng/sleepmind-ai/actions/workflows/python-checks.yml)
 
 **Sleep Product Analytics & AI Coaching Platform**
@@ -298,7 +299,7 @@ Planned improvements:
 - Add real wearable or sleep dataset.
 - Add Sleep-EDF EEG-based sleep staging module.
 - Improve model evaluation for imbalanced classification.
-- Add tests for metrics and feature engineering.
+- Expand test coverage for dashboard and AI coach logic.
 
 ## Portfolio Positioning
 
